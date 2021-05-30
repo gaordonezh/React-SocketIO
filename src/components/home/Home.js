@@ -6,7 +6,7 @@ import io from "socket.io-client";
 let socket;
 
 const Home = () => {
-  const ENDPT = "localhost:5000";
+  const ENDPT = "https://back-socketio.herokuapp.com";
   const { user, setUser } = useContext(UserContext);
   const [room, setRoom] = useState("");
   const [rooms, setRooms] = useState([]);
@@ -39,7 +39,7 @@ const Home = () => {
   };
 
   if (!user) {
-    return <Redirect to="login" />;
+    return <Redirect to="/login" />;
   }
 
   return (

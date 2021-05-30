@@ -20,7 +20,7 @@ function App() {
 
   const verifyuser = async () => {
     try {
-      const res = await fetch("http://localhost:5000/verifyuser", {
+      const res = await fetch("https://back-socketio.herokuapp.com/verifyuser", {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",

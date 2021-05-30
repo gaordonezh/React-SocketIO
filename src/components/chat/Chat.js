@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 import { UserContext } from "../../UserContext";
 import io from "socket.io-client";
 import Messages from "./messages/Messages";
@@ -7,15 +7,17 @@ import Input from "./input/Input";
 
 let socket;
 const Chat = () => {
-  const ENDPT = "localhost:5000";
+  const ENDPT = "https://back-socketio.herokuapp.com";
   const { user, setUser } = useContext(UserContext);
   const { room_id, room_name } = useParams();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    socket = io(ENDPT);
-    socket.emit("join", { name: user.name, room_id, user_id: user._id });
+    if (user) {
+      socket = io(ENDPT);
+      socket.emit("join", { name: user.name, room_id, user_id: user._id });
+    }
   }, []);
 
   useEffect(() => {
@@ -38,6 +40,10 @@ const Chat = () => {
       socket.emit("sendMessage", message, room_id, () => setMessage(""));
     }
   };
+
+  if (!user) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className="outerContainer">
